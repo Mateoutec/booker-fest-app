@@ -1,0 +1,99 @@
+%===: config
+\documentclass[a4paper, 11pt, oneside]{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-noshorthands]{babel} 
+\setcounter{secnumdepth}{5}
+
+
+
+%===: packages
+\usepackage[square, numbers, comma, sort&compress]{natbib}
+\usepackage{verbatim}
+\usepackage{setspace}
+\usepackage[]{graphicx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[]{accanthis}
+\usepackage{array, caption, tabularx,  ragged2e,  booktabs}
+\usepackage{supertabular}
+\graphicspath{{figures/}}
+
+
+
+%===: data
+\renewcommand\contentsname{\textsc{Índice General}}
+
+
+
+%===: customization
+% -> title custom
+\usepackage[]{titlesec, xcolor}
+\titleformat{\section}{\Huge}{\bfseries{Sección }\thesection{:}}{10pt}{\huge}[{\titlerule[0pt]}]
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\section}[hang]{\Huge\bfseries}{\thesection\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+\titlespacing{\section}{0pt}{0pt}{20pt}
+\titlespacing{\section}{0pt}{3ex plus 1ex minus 0.2ex}{10pt}
+\titleformat{\paragraph}{\normalfont\large\bfseries}{\thesection}{1em}{}[{\titlerule[0.3pt]}]
+\titlespacing{\section}{0pt}{3ex plus 1ex minus 0.2ex}{10pt}
+\tikzset{
+    ultra thin/.style= {line width=0.1pt},
+    very thin/.style=  {line width=0.2pt},
+    thin/.style=       {line width=0.4pt},% thin is the default
+    semithick/.style=  {line width=0.6pt},
+    thick/.style=      {line width=0.8pt},
+    very thick/.style= {line width=1.2pt},
+    ultra thick/.style={line width=1.6pt}
+}
+% -> inline code custom
+\let\oldtexttt\texttt
+\newcommand{\code}[1]{\colorbox{lightgray!20}{\oldtexttt{#1}}} 
+\renewcommand{\texttt}{\code}
+
+
+
+%|====================| data
+% -> top data custom
+\pagestyle{fancy}
+\fancyhead[R]{UTEC 2023-1}
+\fancyhead[L]{Proyecto de Base de Datos I}
+
+
+
+%===: document
+\begin{document}
+
+    \begin{titlepage}
+        \begin{center}
+            \vfill
+            \Large \textbf{Universidad de Ingeniería y Tecnología}\\[.5cm]
+            \large Proyecto de Base de Datos I\\[1cm]
+            \vfill
+            \includegraphics[width=7cm]{figures/utecLogo.png}\\[1cm]
+            \vfill
+            \Large \textbf{BookerFest: Reserva de Eventos en Línea}\\[.5cm]
+            \large Docente: Quintanilla Cruz, Rommel\\[1cm]
+            \vfill
+            \Large \textbf{Integrantes}\\[0.5cm]
+            \large Lazo Mera, Kalos - 202210184\\[0.2cm]
+            \large Alferez Vicente, Bladimir - 202210391\\[0.2cm]
+            \large Llallire Meza, Mateo Gabriel - 202210187\\[2cm]
+            \vfill
+            {\large 2023-1}\\[0.5cm]
+            {\large Lima, \today}\\[0.5cm]
+            \vfill
+        \end{center}
+    \end{titlepage}
+
+    \newpage
+    \onehalfspacing 
+    \tableofcontents
+    \setlength\parindent{0pt}
+
+    \include{lib/topic1.tex}
+    \include{lib/topic2.tex}
+    \include{lib/topic3.tex}
+\end{document}

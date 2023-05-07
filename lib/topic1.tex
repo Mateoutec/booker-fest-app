@@ -1,0 +1,145 @@
+\section{Requisitos}
+
+
+%===: Introducción
+\subsection{Introducción}
+BookerFest es una empresa creada por un grupo de jóvenes apasionados por la tecnología y las actividades sociales. Desde sus inicios se interesaron en actividades de venta y promoción de entradas para eventos pequeños y medianos. Fue así que gradualmente las ventas aumentaron gracias a la gran demanda del público asistente a eventos en Lima, motivo por el que han pensado en optar por una base de datos para optimizar sus consultas de información, pues actualmente utilizan archivos \code{.csv} en línea para el almacenamiento de sus datos.\\
+
+A día de hoy, BookerFest busca convertirse en una plataforma líder en la reserva de eventos en línea. Para ello, tienen pensado expandir sus alcances: capacidad de promoción de eventos en todo el Perú. Para lograrlo, necesitan una plataforma web que tenga una interfaz de usuario intuitiva y la implementación de un sistema de base de datos escalable y seguro, que permita la consulta de grandes volúmenes de información eficientemente.\\
+
+Frente a esta situación, BookerFest solicita la implementación de una base de datos que permita almacenar información de eventos, información de usuarios registrados en la plataforma y el proceso de compra de entradas: desde la venta hasta la generación del QR's para permitir su acceso. Del mismo modo, la implementación debe ser capaz de permitir realizar búsquedas personalizadas con ciertos filtros (lugar, hora, precio), además de brindar estadísticas en tiempo real de su alcance y ventas.\\
+
+%===: Descripción general del problema/organización/empresa
+\subsection{Descripción general del problema/organización/empresa}
+A raíz del crecimiento de usuarios y eventos por parte de la empresa BookerFest, se necesita de una base de datos de alto rendimiento. Pues su problema es que trabajan con archivos en línea del tipo \code{.csv}, por lo que se debe pensar primero en una correcta \textbf{migración} de datos, para no perder su información.\\
+
+Gracias a que existe gran competitividad en este mercado, se busca que la plataforma web sea lo más estable posible, pues al realizar su lanzamiento ofrecerán promociones imbatibles en pro de fidelizar nuevos clientes. En consecuencia van a manejar gran volumen de peticiones e interacción de usuarios en simultáneo.\\
+
+%===: Necesidad/usos de la base de datos
+\subsection{Necesidad/usos de la base de datos}
+La necesidad de la base de datos nace cuando surge la necesidad de desarrollar una plataforma que reúna tanto a clientes como embajadores de eventos, para que sea fácil la creación de eventos y compra de QR's. No obstante además de necesitar guardar infornación de clientes de manera automatizada, su principal objetivo es poder acceder a estadísticas personalizadas para cada entidad: Evento, Persona y Embajador.\\ 
+
+Estas estadísticas son muy atractivas para los Embajadores de eventos, dado que pueden ver el alcance del público, el rango de edades predominantes: ¿Qué parte de esa muestra realiza la compra de sus QR?, además de los ingresos estimados, tickets disponibles, tendencia de compra, etc. De esta forma los Embajadores pueden tomar decisiones más acertivas, que de no ser por una base de datos que guarde registros de la audiencia y una plataforma que genere estadísticas a partir de la información almacenada, sería imposible.\\
+
+%===: ¿Cómo resuelven el problema hoy?
+\subsection{¿Cómo resuelven el problema hoy?}
+\subsubsection{¿Cómo se almacenan/procesa los datos hoy?}
+Como se mencionó anteriormente, se utilizan archivos Excel del tipo \code{.csv}, estos son guardados en la nube, y cuando se necesita interactuar con ellos, se tienen que descargar en una computadora local, y utilizando el lenguaje de Python, en conjunto con la librería \code{pandas} realizan la filtración de la información e incluso la interpretación gráfica.\\
+
+Si bien realizan consultas utilizando un pequeño script, se dieron cuenta que si quieren escalar sus registros e incorporar/eliminar funcionalidades, ejecutar el script en servidores web en tiempo real ó consultar usuarios, el proceso es muy tedioso pues este depende de pequeños módulos (archivos) que pueden corromperse y confundirse entre sí (posibilidad de guardar información errónea de un usuario en otra tabla). Por todo eso y más su modelo actual no es eficiente ni escalable.\\
+\subsubsection{Flujo de datos}
+Los datos son generados principalmente por los usuarios y embajadores de eventos. El primero es una entidad que participa de la demanda de actividades sociales, por lo que acude a la búsqueda y análisis de distintas opciones. Para ello necesita de introducir información como su edad, departamento del Perú en el que reside y tipo de eventos, de esa forma se le puede ofrecer información personalizada, aumentando la posibilidad de compra.\\
+
+Por otro lado los Embajadores de eventos tienen la posibilidad de publicar eventos con ciertos filtros, que incrementan su posibilidad de ser encontrador por algún usuario. Además utilizando datos de búsqueda hechas por usuarios, es posible ver estadísticas de audiencia y de ventas de QR's, lo que permite a los Embajadores optar por diferentes estrategias y medir fácilmente su impacto.\\
+
+%===: Descripción detallada del sistema
+\subsection{Descripción detallada del sistema}
+\subsubsection{Objetos de información actuales}
+Dentro de objetos de información encontramos los archivos de Excel exportados en formato \code{.csv}, que para simular la migración de datos, serán rellenados con datos aleatorios provenientes de un pequeño script automatizado hecho en Python. De igual forma se cuenta con información externa, puesto que muchos Embajadores publican eventos en Facebook, Instagram, ó redes sociales afines, los utilizaremos para simular eventos activos en nuestra fase Beta de la página web y implementación de base de datos. Para ello se extraeran de distintos recursos en línea los eventos más sonados del Perú: cada uno con sus créditos correspondientes.\\
+
+Trataremos de enfocarnos más en optimizar el tiempo de respuesta del usuario a peticiones como: ver evento, comprar QR's, etc. Todo esto será posible medirse a partir de diferentes Unit Testing: Load Testing, Stress Testing, etc. Esto nos permitirá ver cómo reacciona nuestra aplicación en escenarios de alta demanda de usuarios para 1.000.000 (un millón) de datos almacenados.\\
+
+\subsubsection{Características y funcionalidades esperadas}
+El principal objetivo es diseñar una base de datos flexible, que permite la incorporación de nuevas funcionalidades (columnas) a las distintas tablas pre-existentes. Además se necesita que sea posible de manejar un gran volumen de datos, teniendo como referencia 1.000.000 (un millón) de datos almacenados para su primer despliegue a producción.\\
+
+Otro punto fundamental es el tiempo de respuesta para una petición proviniente del usuario, debe ser rápido. Comúnmente el público que compra entradas a eventos exclusivos (ciertos casos), lo realiza \textit{formando} una cola de espera virtual, donde la velocidad y estabilidad del sistema es fundamental. Una mala optimización puede definir si un cliente consigue entrada o no. En este contexto, si un cliente obtiene una mala experiencia, nuestro modelo de negocio se verá afectado, puesto que el cliente se irá con la competencia.\\
+
+Otra funcionalidad esperada es la implementación de la conexión entre el registro e inicio de sesión por parte de los usuarios con la creación de información en la base de datos. Este formulario debe pedir información como: nombre, apellidos, edad, DNI y correo electrónico, y una vez creada pasar por un breve cuestionario que permite ofrecer eventos personalizados. Entre las preguntas más básicas, debe estar la locación del usuarios (departamento en el que se encuentra, si no es ingresado, por defecto es todo el Perú), sus eventos objetivos: conciertos, fiestas, discotecas, actividades al aire libre, etc.\\
+
+\subsubsection{Tipos de usuarios existentes/necesarios}
+BookerFest actualmente es una startup peruana con 3 dueños y un personal en crecimiento. Dentro del área de desarrollo de software cuenta con 1 programador a tiempo parcial, mientras que en lado de marketing cuenta con 2 trabajadores quienes se encargan de promover el uso de su administración de eventos, además de manejar sus redes sociales. Por otro lado cuenta con 2 practicantes de la carrera de Ciencia de Datos, quienes se encarga de manipular los datos, además de realizar proyecciones en cuanto a su audiencia.\\
+
+\textbf{Clientes}, Estos son la base de la plataforma, pues son quienes ofrecen la demanda a los Embajadores de eventos. Además gracias a proporcionar sus datos, ellos contribuyen a generar estadísticas para mejorar tanto el servicio de la plataforma, como estrategias para aumentar las ventas de eventos. Así mismo deben de tener la funcionalidad de realizar compras en línea a través de distintos medios de pago, para incrementar la posibilidad de compra.\\
+
+\textbf{Embajadores} Usuarios con un rol que les permite publicar eventos, obtener datos de su audiencia y vender QR's através de distintos medios de pago. Por otro lado son capaces de editar sus propios eventos, actualizar el precio de sus QR's en tiempo real, así como ofrecer descuentos por un tiempo determinado. También pueden generar códigos de descuentos, para incrementar las posibilidades de venta.\\
+
+\subsubsection{Tipos de consulta, actualizaciones}
+A modo de preparar nuestra implementación de base de datos, será necesario plantear preguntas (posibles consultas) que servirán para que después de terminar nuestro modelo observemos a juicio crítico si pueden ser respondidas, caso contrario hacer sus modificaciones.
+\begin{itemize}
+    \item ¿Cuáles son los filtros disponibles que permiten una búsqueda personalizada?
+    \item ¿Cuáles son los medios de pago disponibles?
+    \item ¿Existe algún impuesto a la hora de comprar los QR's?
+    \item ¿Cómo puedo filtrar el evento más económico cerca de mi ubicación?
+    \item ¿Puedo ver el evento más vendido en las últimas 24 horas?
+    \item ¿Cómo puedo visualizar las estadísticas de alcance de audiencia para las últimas 24 horas?
+    \item ¿Cómo coloco una promoción sobre el precio base de un tipo de entrada durante 24 horas con un máximo stock de 100 entradas?\\
+\end{itemize}
+
+\subsubsection{Tamaño estimado de la base de datos}
+Se tiene pensado que la base de datos debe tener un tamaño mínimo que permita el registro de 10.000 usuarios, así como la publicación y mantenimiento para aproximadamente 1.000 eventos, donde cada uno de ellos puede estar en constante crecimiento, ya que se pueden cargar flyers que se encuentren en un rango máximo de 1 a 5MB.\\
+
+\begin{table}[!h]
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \multicolumn{1}{|c|}{\textit{\textbf{Nombre de la tabla}}} & \multicolumn{1}{c|}{\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Longitud de atributos \\ (Bytes)\end{tabular}}}} & \multicolumn{1}{c|}{\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Longitud del registro \\ (Bytes)\end{tabular}}}} \\ \hline
+    Evento                                            & 50 + 1 + 100 + 2000 + 8 + 4 + 4 + 20                                                                   & 2187                                                                                                   \\ \hline
+    Usuario                                           & 8 + 50 + 50 + 100 +                                                                                    & 100                                                                                                    \\ \hline
+    Boleta                                            & 4 + 8 + 8 + 4 + 100                                                                                    & 124                                                                                                    \\ \hline
+    Local                                             & 20 + 4 + 100 + 50                                                                                      & 174                                                                                                    \\ \hline
+    Entrada                                           & 20 + 50 + 10 + 10                                                                                      & 60                                                                                                     \\ \hline
+    Embajador                                         & 50 + 50 + 4 + 8 + 4                                                                                    & 116                                                                                                    \\ \hline
+    Pago                                              & 20 + 8 + 8 + 6                                                                                         & 50                                                                                                     \\ \hline
+    Reseña                                            & 20 + 100 + 1 + 6 + 20                                                                                  & 147                                                                                                    \\ \hline
+    Reseña                                            & 20 + 100 + 1 + 6 + 20                                                                                  & 147                                                                                                    \\ \hline
+    \end{tabular}
+    \caption{Estimación del tamaño de registros por tabla en Bytes.}
+\end{table}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+    \multicolumn{1}{|c|}{\textit{\textbf{Nombre de la tabla}}} &
+      \multicolumn{1}{c|}{\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Longitud del registro\\ (Bytes)\end{tabular}}}} &
+      \multicolumn{1}{c|}{\textit{\textbf{Datos estimados}}} &
+      \multicolumn{1}{c|}{\textit{\textbf{\begin{tabular}[c]{@{}c@{}}Tamaño estimado \\ (Bytes)\end{tabular}}}} \\ \hline
+    Evento    & 2.187 & 10.000  & $2.187 \cdot 10^{7}$ \\ \hline
+    Usuario   & 100   & 100.000 & $1 \cdot 10^{6}$     \\ \hline
+    Boleta    & 124   & 300.000 & $3.72 \cdot 10^{7}$  \\ \hline
+    Local     & 174   & 5.000   & $8.7 \cdot 10^{5}$   \\ \hline
+    Entrada   & 60    & 300.000 & $1.8 \cdot 10^{5}$   \\ \hline
+    Embajador & 116   & 1.000   & $1.16 \cdot 10^{5}$  \\ \hline
+    Pago      & 50    & 100.000 & $5 \cdot 10^{6}$     \\ \hline
+    Reseña    & 147   & 300.000 & $4.41 \cdot 10^{7}$  \\ \hline
+    \end{tabular}
+    \caption{Estimación de tamaño ocupado por tabla en Bytes}
+\end{table}
+
+Por otro lado, los usuarios pueden subir fotos de perfil para ser fácilmente identificados. Además conectado a cada usuario existe estadísticas de la cantidad de entradas compradas QR's. Las imágenes subidas por usuarios deben tener tamaño máximo de 100KB a 1MB. Para poder poner límites a la creación en tablas, el nombre del usuario tendrá como máximo una longitud de 100 carácteres.\\
+
+Para el DNI sólo permitiremos 8 dígitos del tipo entero. Mientras que la edad es un numero entero menor a 150 que ocupa 4 Bytes (entero). Para concluir el correo electrónico tendrá 50 carácteres como máximo, por lo que le dedicaremos 50 bytes fijos.\\
+
+En conclusión por usuario tendremos un aproximado de 150 Bytes para cada uno, lo que permite una escalabilidad ya que no consume tanto recurso. Mientras que los embajadores y en conjunto con los eventos creados obtendremos un aproximado de 5MB para una configuración completa, considerando: descripción del evento, aforo, puntuación del embajador, filtros, localización, precio de QR's, etc.\\
+
+%===: Objetivos del proyecto
+\subsection{Objetivos del proyecto}
+\begin{enumerate}
+    \item Implementar una base de datos escalable y segura
+    \item Desarrollar una página web con UI (User Interface) sencilla e intuitiva.
+    \item Asegurar la correcta implementación de migración de datos de archivos \code{.csv} a PostgreSQL.
+    \item Permitir herramientas de análisis estadístico para Embajadores de eventos.\\
+\end{enumerate}
+
+%===: Referencias del proyecto
+\subsection{Referencias del proyecto}
+Para la realización de este proyecto, hemos realizado una investigación de mercado para conocer a la competencia, para diferenciarnos y fomentar una identidad única. Dicho así las principales plataformas para venta/compra/reserva de eventos en línea son las siguientes:
+\begin{itemize}
+    \item Teleticket, https://teleticket.com.pe/
+    \item Joinnus, https://www.joinnus.com/
+    \item Eventbrite, https://www.eventbrite.com.pe/
+\end{itemize}
+
+
+%===: Eventualidades
+\subsection{Eventualidades}
+\subsubsection{Problemas que pudieran encontrarse en el proyecto}
+\begin{itemize}
+    \item Si existe una mala implementación en la migración de datos, vamos a perder una muestra representativa y contacto del cliente. Por lo que debemos de pasar este script por copias de los ficheros existentes con distintos Unit Testing.
+    \item Evitar que la página web salga a producción con una mala optimización, pues esa primera impresión afecta en el proceso de fidelización del cliente.
+    \item Es imprescindible que en las estadísticas de embajadores sólo se vea la ubicación aproximada (departamento) y edad de la audiencia, más no los nombres, ni el Documento Nacional de Identidad (DNI). 
+\end{itemize}
+
+\subsubsection{Límites y alcances del proyecto}
+El siguiente proyecto busca tener un alcance que abarque a toda la población peruana. Existe mucha atención en la capital aún cuando existen eventos en provincias que son populares, pero sólo por la población local. Entonces además de exponer estas tradiciones apoyamos al crecimiento del turismo en estas provincias gracias a las facilidades que nos brindan las herramientas de tecnología.\\
+
+Por otro lado existen muchas limitaciones a la hora de desarrollar el sistema, la primera es que debemos trabajar con plataformas como PayU, pues que generan confianza en usuarios, y tenemos que asegurar su correcta implementación. Otra limitante son el espacio actual de nuestro servidores que de momento son locales. Por último nuestro sitio web debe seguir un estudio de diseño UI/UX puesto que accederán personas de distintas partes del Perú, por lo que a su vez debemos asegurar su correcta velocidad. 
